@@ -1,18 +1,21 @@
 import React from 'react';
+import closeIcon from '../images/close-icon.svg';
 
-function PopupWithImage() {
-  return (
-    <section className="popup popup-image">
-    <figure className="popup-image__container">
-    <img className="popup-image__photo" src="#"/>
-    <button className="popup-image__close-button">
-      <img className="popup-image__close-icon close-icon" src="./images/close-icon.svg"
-      alt="Иконка закрытия модального окна"/>
-    </button>
-    <figcaption className="popup-image__title"></figcaption>
-    </figure>
-    </section>
-  );
+function PopupWithImage(props) {
+  if (props.card) {
+    return (
+      <section className="popup popup-image popup_opened">
+        <figure className="popup-image__container">
+          <img className="popup-image__photo" src={props.card.url} alt={props.card.title} />
+          <button className="popup-image__close-button" onClick={props.onClose}>
+            <img className="popup-image__close-icon close-icon" src={closeIcon} alt="Иконка закрытия модального окна" />
+          </button>
+          <figcaption className="popup-image__title">{props.card.title}</figcaption>
+        </figure>
+      </section>
+    );
+  }
+  else return null;
 }
 
 export default PopupWithImage;
