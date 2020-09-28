@@ -40,6 +40,12 @@ function Main(props) {
 		});
 	}
 
+	function handleCardDelete(card) {
+		cardsApi.deleteCard(card._id).then(() => {
+			const cardsWithoutDeleted = cards.filter(c => c._id !== card._id);
+			setCards(cardsWithoutDeleted);
+		})
+	}
 
 	return (
 		<main>
@@ -67,7 +73,7 @@ function Main(props) {
 				</button>
 			</section>
 			<ul className="elements">
-				{cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCard} onCardLike={handleCardLike} />)}
+				{cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCard} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />)}
 			</ul>
 		</main>
 	);

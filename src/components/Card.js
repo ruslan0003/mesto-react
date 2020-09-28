@@ -12,6 +12,10 @@ function Card(props) {
 		props.onCardLike(props.card);
 	}
 	
+	function handleDeleteClick() {
+		props.onCardDelete(props.card);
+	}
+
 	const currentUser = React.useContext(UserContext);
 	const isOwn = props.card.owner._id === currentUser._id;
 	const cardDeleteButtonClassName = (
@@ -28,7 +32,7 @@ function Card(props) {
   return (
     <div className="element-template" key={props.card._id}>
       <li className="element">
-        <button className={cardDeleteButtonClassName}>
+        <button className={cardDeleteButtonClassName} onClick={handleDeleteClick}>
           <img className="element__delete-icon" src={deleteIcon} alt="Иконка кнопки удалить" />
         </button>
 				<>
