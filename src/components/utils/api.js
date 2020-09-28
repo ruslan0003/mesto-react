@@ -30,13 +30,13 @@ class Api {
         }
         return Promise.reject(`Ошибка: ${res.status}`);
       });
-  }
-
-  likeCard(cardId) {
-    return fetch(`${this._baseUrl}/likes/${cardId}`,
+	}
+	
+	changeLikeCardStatus(cardId, isLiked) {
+		return fetch(`${this._baseUrl}/likes/${cardId}`,
       {
         headers: this._headers,
-        method: 'PUT',
+        method: `${isLiked? 'PUT' : 'DELETE'}`,
       })
       .then(res => {
         if (res.ok) {
@@ -44,35 +44,7 @@ class Api {
         }
         return Promise.reject(`Ошибка: ${res.status}`);
       });
-  }
-
-  getLikes(cardId) {
-    return fetch(`${this._baseUrl}/likes/${cardId}`,
-      {
-        headers: this._headers,
-        method: 'PUT',
-      })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }
-
-  dislikeCard(cardId) {
-    return fetch(`${this._baseUrl}/likes/${cardId}`,
-      {
-        headers: this._headers,
-        method: 'DELETE',
-      })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }
+	}
 
   editProfile(userName, userJob) {
     return fetch(this._baseUrl,

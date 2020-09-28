@@ -1,51 +1,26 @@
 import React from 'react';
 import pencilIcon from '../images/pencil-icon.svg';
 import plusIcon from '../images/plus-icon.svg';
-import { cardsApi, userDataApi } from './utils/api.js';
+import { cardsApi } from './utils/api.js';
 import Card from './Card.js';
+import { UserContext } from '../contexts/CurrentUserContext.js';
 
 function Main(props) {
 
-	const [userName, setUserName] = React.useState('');
-	const [avatarImage, setAvatarImage] = React.useState('');
-	const [userJob, setUserJob] = React.useState('');
+	const currentUser = React.useContext(UserContext);
 	const [cards, setCards] = React.useState([]);
-
-	React.useEffect(() => {
-		userDataApi.getData().then(
-			res => {
-				setUserName(res.name);
-			}).catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-	React.useEffect(() => {
-		userDataApi.getData().then(
-			res => {
-				setAvatarImage(res.avatar);
-			}).catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-	React.useEffect(() => {
-		userDataApi.getData().then(
-			res => {
-				setUserJob(res.about);
-			}).catch((err) => {
-				console.log(err);
-			});
-	}, []);
 
 	React.useEffect(() => {
 		cardsApi.getData().then(
 			(res) => {
 				const initialCards = res.map(item => ({
-					title: item.name,
-					url: item.link,
-					likes: item.likes.length,
-					id: item._id,
+					name: item.name,
+					link: item.link,
+					likes: item.likes,
+					_id: item._id,
+					owner: {
+						_id: item.owner._id,
+					}
 				}))
 				setCards(initialCards)
 			}).catch((err) => {
@@ -53,26 +28,38 @@ function Main(props) {
 			});
 	}, []);
 
+	function handleCardLike(card) {
+		// Снова проверяем, есть ли уже лайк на этой карточке
+		const isLiked = card.likes.some(i => i._id === currentUser._id);
+		// Отправляем запрос в API и получаем обновлённые данные карточки
+		cardsApi.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+			// Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+			const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+		  // Обновляем стейт
+			setCards(newCards);
+		});
+	}
+
 
 	return (
 		<main>
 			<section className="profile">
 				<div className="profile__card">
 					<div className="profile__avatar-wrap">
-						<img className="profile__avatar" src={avatarImage} alt="Аватар пользователя" />
+						<img className="profile__avatar" src={currentUser.avatar} alt="Аватар пользователя" />
 						<button className="profile__change-avatar-button" onClick={props.onEditAvatar}>
 							<img className="profile__change-avatar-icon" src={pencilIcon} alt="Иконка кнопки смены аватара" />
 						</button>
 					</div>
 					<div>
 						<div className="profile__name-button-container">
-							<h1 className="profile__name">{userName}</h1>
+							<h1 className="profile__name">{currentUser.name}</h1>
 							<button className="profile__edit-button" onClick={props.onEditProfile}>
 								<img className="profile__edit-button-icon" src={pencilIcon}
 									alt="Иконка кнопки редактирования профиля" />
 							</button>
 						</div>
-						<p className="profile__position">{userJob}</p>
+						<p className="profile__position">{currentUser.about}</p>
 					</div>
 				</div>
 				<button className="profile__add-button" onClick={props.onAddPlace}>
@@ -80,7 +67,7 @@ function Main(props) {
 				</button>
 			</section>
 			<ul className="elements">
-				{cards.map((card) => <Card key={card.id} card={card} onCardClick={props.onCard} />)}
+				{cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCard} onCardLike={handleCardLike} />)}
 			</ul>
 		</main>
 	);

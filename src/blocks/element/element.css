@@ -8,6 +8,8 @@
 @import url('./__delete-icon/element__delete-icon.css');
 @import url('./__like-wrapper/element__like-wrapper.css');
 @import url('./__like-number/element__like-nubmer.css');
+@import url('./__delete-button/_hidden/element__delete-button_hidden.css');
+@import url('./__delete-button/_visible/element__delete-button_visible.css');
 
 .element {
   display: flex;

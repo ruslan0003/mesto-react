@@ -5,80 +5,93 @@ import Header from './Header.js';
 import '../index.css';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
+import { userDataApi } from './utils/api.js';
+import { UserContext } from '../contexts/CurrentUserContext.js';
 
 document.body.style.backgroundColor = 'black';
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(null);
+	const [currentUser, setCurrentUserInfo] = React.useState({});
+	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+	const [selectedCard, setSelectedCard] = React.useState(null);
 
-  function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true);
-    console.log(isEditAvatarPopupOpen);
-  }
+	React.useEffect(() => {
+		userDataApi.getData().then(
+			res => {
+				setCurrentUserInfo(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true);
-    console.log(isEditProfilePopupOpen);
-  }
+	function handleEditAvatarClick() {
+		setIsEditAvatarPopupOpen(true);
+	}
 
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
-    console.log(isAddPlacePopupOpen);
-  }
+	function handleEditProfileClick() {
+		setIsEditProfilePopupOpen(true);
+	}
 
-  function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setSelectedCard(null);
-  }
+	function handleAddPlaceClick() {
+		setIsAddPlacePopupOpen(true);
+	}
 
-  return (
-    <div className="page">
+	function closeAllPopups() {
+		setIsEditProfilePopupOpen(false);
+		setIsEditAvatarPopupOpen(false);
+		setIsAddPlacePopupOpen(false);
+		setSelectedCard(null);
+	}
 
-      <Header />
+	return (
+		<div className="page">
 
-      <Main onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCard={setSelectedCard} />
+			<UserContext.Provider value={currentUser}>
 
-      <Footer />
+				<Header />
 
-      <PopupWithForm name="popup-edit" title="Редактировать профиль" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen}>
-        <input className="form__input form__input_type_name" id="name-input" type="text" name="name-input" placeholder="Имя"
-          minLength="2" maxLength="40" required />
-        <span className="form__input-error" id="name-input-error"></span>
-        <input className="form__input form__input_type_job" type="text" name="job-input" id="job-input" placeholder="О себе"
-          minLength="2" maxLength="200" required />
-        <span className="form__input-error" id="job-input-error"></span>
-        <button className="form__submit popup-edit__submit-button" type="submit" value="Сохранить">Сохранить</button>
-      </PopupWithForm>
+				<Main onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCard={setSelectedCard} />
 
-      <PopupWithForm name="popup-add" title="Новое место" onClose={closeAllPopups} isOpen={isAddPlacePopupOpen}>
-        <input className="form__input form__input_type_title" type="text" id="title-input" name="title-input" placeholder="Название" minLength="1" maxLength="30" required />
-        <span className="form__input-error" id="title-input-error"></span>
-        <input className="form__input form__input_type_url" id="url-input" name="url-input" placeholder="Ссылка на картинку"
-          type="url" required />
-        <span className="form__input-error" id="url-input-error"></span>
-        <button className="form__submit popup-add__submit-button" type="submit" value="Создать">Создать</button>
-      </PopupWithForm>
+				<Footer />
 
-      <PopupWithForm name="popup-submit" title="Вы уверены?">
-        <button className="form__submit popup-submit__submit-button form__submit-button_no-input" type="submit" value="Подтвердить">Да</button>
-      </PopupWithForm>
+				<PopupWithForm name="popup-edit" title="Редактировать профиль" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen}>
+					<input className="form__input form__input_type_name" id="name-input" type="text" name="name-input" placeholder="Имя"
+						minLength="2" maxLength="40" required />
+					<span className="form__input-error" id="name-input-error"></span>
+					<input className="form__input form__input_type_job" type="text" name="job-input" id="job-input" placeholder="О себе"
+						minLength="2" maxLength="200" required />
+					<span className="form__input-error" id="job-input-error"></span>
+					<button className="form__submit popup-edit__submit-button" type="submit" value="Сохранить">Сохранить</button>
+				</PopupWithForm>
 
-      <PopupWithForm name="popup-avatar" title="Обновить аватар" onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen}>
-        <input className="form__input form__input_type_avatar_url" id="avatar-url" name="avatar-url" placeholder="Ссылка на аватар"
-          type="url" required />
-        <span className="form__input-error" id="avatar-url-error"></span>
-        <button className="form__submit popup-avatar__submit-button" type="submit" value="Создать">Сохранить</button>
-      </PopupWithForm>
+				<PopupWithForm name="popup-add" title="Новое место" onClose={closeAllPopups} isOpen={isAddPlacePopupOpen}>
+					<input className="form__input form__input_type_title" type="text" id="title-input" name="title-input" placeholder="Название" minLength="1" maxLength="30" required />
+					<span className="form__input-error" id="title-input-error"></span>
+					<input className="form__input form__input_type_url" id="url-input" name="url-input" placeholder="Ссылка на картинку"
+						type="url" required />
+					<span className="form__input-error" id="url-input-error"></span>
+					<button className="form__submit popup-add__submit-button" type="submit" value="Создать">Создать</button>
+				</PopupWithForm>
 
-      <PopupWithImage card={selectedCard} onClose={closeAllPopups} />
+				<PopupWithForm name="popup-submit" title="Вы уверены?">
+					<button className="form__submit popup-submit__submit-button form__submit-button_no-input" type="submit" value="Подтвердить">Да</button>
+				</PopupWithForm>
 
-    </div>
-  );
+				<PopupWithForm name="popup-avatar" title="Обновить аватар" onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen}>
+					<input className="form__input form__input_type_avatar_url" id="avatar-url" name="avatar-url" placeholder="Ссылка на аватар"
+						type="url" required />
+					<span className="form__input-error" id="avatar-url-error"></span>
+					<button className="form__submit popup-avatar__submit-button" type="submit" value="Создать">Сохранить</button>
+				</PopupWithForm>
+
+				<PopupWithImage card={selectedCard} onClose={closeAllPopups} />
+
+			</UserContext.Provider>
+
+		</div>
+	);
 }
 
 export default App;
