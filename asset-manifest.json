@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/mesto-react/static/css/main.78571f83.chunk.css",
-    "main.js": "/mesto-react/static/js/main.4991d4bd.chunk.js",
-    "main.js.map": "/mesto-react/static/js/main.4991d4bd.chunk.js.map",
+    "main.css": "/mesto-react/static/css/main.62dded05.chunk.css",
+    "main.js": "/mesto-react/static/js/main.bd05f181.chunk.js",
+    "main.js.map": "/mesto-react/static/js/main.bd05f181.chunk.js.map",
     "runtime-main.js": "/mesto-react/static/js/runtime-main.36fb0e45.js",
     "runtime-main.js.map": "/mesto-react/static/js/runtime-main.36fb0e45.js.map",
-    "static/js/2.4cc2a1e1.chunk.js": "/mesto-react/static/js/2.4cc2a1e1.chunk.js",
-    "static/js/2.4cc2a1e1.chunk.js.map": "/mesto-react/static/js/2.4cc2a1e1.chunk.js.map",
+    "static/js/2.c60a17f8.chunk.js": "/mesto-react/static/js/2.c60a17f8.chunk.js",
+    "static/js/2.c60a17f8.chunk.js.map": "/mesto-react/static/js/2.c60a17f8.chunk.js.map",
     "index.html": "/mesto-react/index.html",
-    "precache-manifest.dd22f01663478cdce8ed840f52014a4c.js": "/mesto-react/precache-manifest.dd22f01663478cdce8ed840f52014a4c.js",
+    "precache-manifest.5ba57934fc609e39f87d4c7a71a8608c.js": "/mesto-react/precache-manifest.5ba57934fc609e39f87d4c7a71a8608c.js",
     "service-worker.js": "/mesto-react/service-worker.js",
-    "static/css/main.78571f83.chunk.css.map": "/mesto-react/static/css/main.78571f83.chunk.css.map",
-    "static/js/2.4cc2a1e1.chunk.js.LICENSE.txt": "/mesto-react/static/js/2.4cc2a1e1.chunk.js.LICENSE.txt",
+    "static/css/main.62dded05.chunk.css.map": "/mesto-react/static/css/main.62dded05.chunk.css.map",
+    "static/js/2.c60a17f8.chunk.js.LICENSE.txt": "/mesto-react/static/js/2.c60a17f8.chunk.js.LICENSE.txt",
     "static/media/index.css": "/mesto-react/static/media/heart-icon.a8acc871.svg",
     "static/media/close-icon.svg": "/mesto-react/static/media/close-icon.5df32a06.svg",
     "static/media/delete-icon.svg": "/mesto-react/static/media/delete-icon.d8078343.svg",
@@ -21,8 +21,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.36fb0e45.js",
-    "static/js/2.4cc2a1e1.chunk.js",
-    "static/css/main.78571f83.chunk.css",
-    "static/js/main.4991d4bd.chunk.js"
+    "static/js/2.c60a17f8.chunk.js",
+    "static/css/main.62dded05.chunk.css",
+    "static/js/main.bd05f181.chunk.js"
   ]
 }
