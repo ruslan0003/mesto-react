@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import { userDataApi } from './utils/api.js';
 import { UserContext } from '../contexts/CurrentUserContext.js';
+import EditProfilePopup from './EditProfilePopup.js';
 
 document.body.style.backgroundColor = 'black';
 
@@ -45,6 +46,17 @@ function App() {
 		setSelectedCard(null);
 	}
 
+	function handleUpdateUser(name, about) {
+		userDataApi.editProfile(name, about).then(
+			res => {
+				setCurrentUserInfo(res);
+				closeAllPopups();
+			}).catch((err) => {
+				console.log(err);
+			});
+	}
+
+
 	return (
 		<div className="page">
 
@@ -56,15 +68,7 @@ function App() {
 
 				<Footer />
 
-				<PopupWithForm name="popup-edit" title="Редактировать профиль" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen}>
-					<input className="form__input form__input_type_name" id="name-input" type="text" name="name-input" placeholder="Имя"
-						minLength="2" maxLength="40" required />
-					<span className="form__input-error" id="name-input-error"></span>
-					<input className="form__input form__input_type_job" type="text" name="job-input" id="job-input" placeholder="О себе"
-						minLength="2" maxLength="200" required />
-					<span className="form__input-error" id="job-input-error"></span>
-					<button className="form__submit popup-edit__submit-button" type="submit" value="Сохранить">Сохранить</button>
-				</PopupWithForm>
+				<EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser}/> 
 
 				<PopupWithForm name="popup-add" title="Новое место" onClose={closeAllPopups} isOpen={isAddPlacePopupOpen}>
 					<input className="form__input form__input_type_title" type="text" id="title-input" name="title-input" placeholder="Название" minLength="1" maxLength="30" required />

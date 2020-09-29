@@ -46,14 +46,14 @@ class Api {
       });
 	}
 
-  editProfile(userName, userJob) {
+  editProfile(name, job) {
     return fetch(this._baseUrl,
       {
         headers: this._headers,
         method: 'PATCH',
         body: JSON.stringify({
-          name: userName,
-          about: userJob
+          name: name,
+          about: job
         })
       })
       .then(res => {
