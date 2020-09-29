@@ -1,51 +1,12 @@
 import React from 'react';
 import pencilIcon from '../images/pencil-icon.svg';
 import plusIcon from '../images/plus-icon.svg';
-import { cardsApi } from './utils/api.js';
 import Card from './Card.js';
 import { UserContext } from '../contexts/CurrentUserContext.js';
 
 function Main(props) {
 
 	const currentUser = React.useContext(UserContext);
-	const [cards, setCards] = React.useState([]);
-
-	React.useEffect(() => {
-		cardsApi.getData().then(
-			(res) => {
-				const initialCards = res.map(item => ({
-					name: item.name,
-					link: item.link,
-					likes: item.likes,
-					_id: item._id,
-					owner: {
-						_id: item.owner._id,
-					}
-				}))
-				setCards(initialCards)
-			}).catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-	function handleCardLike(card) {
-		// Снова проверяем, есть ли уже лайк на этой карточке
-		const isLiked = card.likes.some(i => i._id === currentUser._id);
-		// Отправляем запрос в API и получаем обновлённые данные карточки
-		cardsApi.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-			// Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-			const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-		  // Обновляем стейт
-			setCards(newCards);
-		});
-	}
-
-	function handleCardDelete(card) {
-		cardsApi.deleteCard(card._id).then(() => {
-			const cardsWithoutDeleted = cards.filter(c => c._id !== card._id);
-			setCards(cardsWithoutDeleted);
-		})
-	}
 
 	return (
 		<main>
@@ -73,7 +34,7 @@ function Main(props) {
 				</button>
 			</section>
 			<ul className="elements">
-				{cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCard} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />)}
+				{props.cards.map((card) => <Card key={card._id} card={card} onCardClick={props.onCard} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />)}
 			</ul>
 		</main>
 	);
