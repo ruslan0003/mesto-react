@@ -5,11 +5,11 @@ import Header from './Header.js';
 import '../index.css';
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
-import { userDataApi } from './utils/api.js';
+import { userDataApi } from '../utils/api.js';
 import { UserContext } from '../contexts/CurrentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
-import { cardsApi } from './utils/api.js';
+import { cardsApi } from '../utils/api.js';
 import AddCardPopup from './AddCardPopup.js';
 
 document.body.style.backgroundColor = 'black';
