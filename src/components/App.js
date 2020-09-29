@@ -8,6 +8,7 @@ import PopupWithImage from './PopupWithImage.js';
 import { userDataApi } from './utils/api.js';
 import { UserContext } from '../contexts/CurrentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 
 document.body.style.backgroundColor = 'black';
 
@@ -56,6 +57,16 @@ function App() {
 			});
 	}
 
+	function handleUpdateAvatar(link) {
+		userDataApi.changeAvatar(link).then(
+			res => {
+				setCurrentUserInfo(res);
+				closeAllPopups();
+			}).catch((err) => {
+				console.log(err);
+			});
+	}
+
 
 	return (
 		<div className="page">
@@ -83,12 +94,7 @@ function App() {
 					<button className="form__submit popup-submit__submit-button form__submit-button_no-input" type="submit" value="Подтвердить">Да</button>
 				</PopupWithForm>
 
-				<PopupWithForm name="popup-avatar" title="Обновить аватар" onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen}>
-					<input className="form__input form__input_type_avatar_url" id="avatar-url" name="avatar-url" placeholder="Ссылка на аватар"
-						type="url" required />
-					<span className="form__input-error" id="avatar-url-error"></span>
-					<button className="form__submit popup-avatar__submit-button" type="submit" value="Создать">Сохранить</button>
-				</PopupWithForm>
+				<EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
 				<PopupWithImage card={selectedCard} onClose={closeAllPopups} />
 
